@@ -1,0 +1,15 @@
+This directory contains klp-convert
+
+More info on klp-convert is available at docs/klp-convert.txt
+
+To build klp-convert:
+> make
+
+To build klp-convert with locally defined macros, avoiding the dependency for
+the kernel-sources package:
+> make local
+
+klp-convert is currently licensed under the GPLv2.
+
+Questions:
+jmoreira@suse.de

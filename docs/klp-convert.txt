@@ -1,0 +1,32 @@
+** Automatic conversion of unresolved relocations
+
+Sometimes livepatches may operate on symbols which are not self-contained nor
+exported. When this happens, these symbols remain unresolved in the elf object
+and will trigger an error during the livepatch instantiation.
+
+By using a symbol database that contains information on all compiled kernel
+objects, klp-convert identifies targets for unresolved relocations, converting
+them in the livepatch elf accordingly to the specifications [1].
+
+When an unresolved relocation has as target a symbol whose name is also used by
+different symbols throughout the kernel, the relocation cannot be resolved
+automatically. In these cases, the livepatch developer must add annotations to
+the livepatch, making it possible for the system to identify which is the
+correct target amongst multiple conflicting symbols. Such annotations must be
+done through a data structure as follows:
+
+struct KLP_MODULE_RELOC(object) data_structure_name[] = {
+       KLP_SYMPOS(symbol, pos)
+};
+
+In the above example, object refers to the object file which contains the
+symbol, being vmlinux or a module; data_structure_name is the name of the
+data structure which will keep the relocation information; symbol refers to the
+symbol name that will be relocated and pos is its position in the object.
+
+When a data structure like this is added to the livepatch, the resulting elf
+will hold symbols that will be identified by klp-convert and used to solve name
+ambiguities.
+
+[1] - linux/Documentation/livepatch/module-elf-format.txt: Livepatch module
+Elf format (Linux Kernel Documentation)

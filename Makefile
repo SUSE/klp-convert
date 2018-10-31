@@ -1,4 +1,4 @@
-CFLAGS := -g -Wall
+CFLAGS := -g -Wall -I/usr/src/linux/include/uapi
 LDFLAGS := -lelf
 OBJ := klp-convert.o elf.o
 

@@ -435,6 +435,10 @@ static bool convert_klp_symbol(struct symbol *s, struct sympos *sp)
 		return false;
 	}
 
+	/* Despite the memory waste, we don't mind freeing the original symbol
+	 * name memory chunk. Keeping it there is harmless and, since removing
+	 * bytes from the string section is non-trivial, it is unworthy.
+	 */
 	s->name = name;
 	s->sec = NULL;
 	s->sym.st_name = -1;

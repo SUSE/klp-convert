@@ -22,7 +22,9 @@
 #include "elf.h"
 #include "list.h"
 #include "klp-convert.h"
+#ifndef LOCAL_KLP_DEFS
 #include <linux/livepatch.h>
+#endif
 
 /*
  * Symbols parsed from Symbols.list are kept in two lists:

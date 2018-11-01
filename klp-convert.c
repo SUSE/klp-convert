@@ -417,7 +417,7 @@ static bool convert_klp_symbol(struct symbol *s, struct sympos *sp)
 	}
 
 	length = strlen(KLP_SYM_PREFIX) + strlen(sp->object_name)
-		 + strlen(sp->symbol_name) + 3;
+		 + strlen(sp->symbol_name) + sizeof(pos) + 3;
 
 	name = calloc(1, length);
 	if (!name) {

@@ -245,6 +245,10 @@ static bool load_usr_symbols(struct elf *klp_elf)
 				return false;
 			}
 			sp->symbol_name = strdup(rela->sym->name);
+			if (!sp->symbol_name) {
+				WARN("Unable to allocate symbol name\n");
+				return false;
+			}
 			sp->pos = reloc[i].sympos;
 			list_add(&sp->list, &usr_symbols);
 			i++;

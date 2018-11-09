@@ -22,7 +22,8 @@
 #define WARN(format, ...) \
 	fprintf(stderr, "klp-convert: " format "\n", ##__VA_ARGS__)
 
-/* klp-convert uses macros defined in the linux sources package. To prevent the
+/*
+ * klp-convert uses macros defined in the linux sources package. To prevent the
  * dependency when building locally, they are defined below. Also notice that
  * these should match the definitions from  the targeted kernel.
  */

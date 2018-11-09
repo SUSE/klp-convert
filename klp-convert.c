@@ -295,7 +295,8 @@ static void print_valid_module_relocs(char *name)
 	fprintf(stderr, "-------------------------------------------------\n");
 }
 
-/* Searches for symbol in symbols list and returns its sympos if it is unique,
+/*
+ * Searches for symbol in symbols list and returns its sympos if it is unique,
  * otherwise prints a list with all considered valid sympos
  */
 static struct symbol_entry *find_sym_entry_by_name(char *name)
@@ -306,7 +307,8 @@ static struct symbol_entry *find_sym_entry_by_name(char *name)
 	list_for_each_entry(e, &symbols, list) {
 		if (strcmp(e->symbol_name, name) == 0) {
 
-			/* If there exist multiple symbols with the same
+			/*
+			 * If there exist multiple symbols with the same
 			 * name then user-provided sympos is required
 			 */
 			if (found) {
@@ -369,7 +371,8 @@ static bool find_missing_position(struct symbol *s, struct sympos *sp)
 	return false;
 }
 
-/* Finds or creates a klp rela section based on another given section (@oldsec)
+/*
+ * Finds or creates a klp rela section based on another given section (@oldsec)
  * and sympos (@*sp), then returns it
  */
 static struct section *get_or_create_klp_rela_section(struct section *oldsec,
@@ -439,7 +442,8 @@ static bool convert_klp_symbol(struct symbol *s, struct sympos *sp)
 		return false;
 	}
 
-	/* Despite the memory waste, we don't mind freeing the original symbol
+	/*
+	 * Despite the memory waste, we don't mind freeing the original symbol
 	 * name memory chunk. Keeping it there is harmless and, since removing
 	 * bytes from the string section is non-trivial, it is unworthy.
 	 */
@@ -451,7 +455,8 @@ static bool convert_klp_symbol(struct symbol *s, struct sympos *sp)
 	return true;
 }
 
-/* Convert rela that cannot be resolved by the clasic module loader
+/*
+ * Convert rela that cannot be resolved by the clasic module loader
  * to the special klp rela one.
  */
 static bool convert_rela(struct section *oldsec, struct rela *r,
@@ -488,7 +493,8 @@ static bool is_exported(char *sname)
 {
 	struct symbol_entry *e;
 
-	/* exp_symbols itens are prefixed with __ksymtab_ - comparisons must
+	/*
+	 * exp_symbols itens are prefixed with __ksymtab_ - comparisons must
 	 * skip prefix and check if both are properly null-terminated
 	 */
 	list_for_each_entry(e, &exp_symbols, list) {
@@ -508,7 +514,8 @@ static bool is_converted(char *sname)
 	return false;
 }
 
-/* Checks if symbol must be converted (conditions):
+/*
+ * Checks if symbol must be converted (conditions):
  * not resolved, not already converted or isn't an exported symbol
  */
 static bool must_convert(struct symbol *sym)

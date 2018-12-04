@@ -28,10 +28,8 @@
  * these should match the definitions from  the targeted kernel.
  */
 
-#ifdef LOCAL_KLP_DEFS
 #define KLP_RELA_PREFIX		".klp.rela."
 #define KLP_SYM_PREFIX		".klp.sym."
-#endif
 
 struct symbol_entry {
 	struct list_head list;

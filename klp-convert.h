@@ -34,6 +34,7 @@
 struct symbol_entry {
 	struct list_head list;
 	char *symbol_name;
+	char *symbol_type;
 	char *object_name;
 };
 

@@ -68,7 +68,7 @@ static bool load_syms_lists(const char *symbols_list)
 	struct symbol_entry *entry;
 	size_t len = 0;
 	ssize_t n;
-	char *obj = NULL, *sym = NULL;
+	char *obj = NULL, *sym = NULL, *space = NULL;
 
 	fsyms = fopen(symbols_list, "r");
 	if (!fsyms) {
@@ -120,8 +120,16 @@ static bool load_syms_lists(const char *symbols_list)
 				return false;
 			}
 
-			entry->symbol_name = sym;
+			/* split type from symbol name */
+			space = strchr(sym, ' ');
+			if (space) {
+				*space = '\0';
+				entry->symbol_type = space + 1;
+			} else {
+				entry->symbol_type = NULL;
+			}
 
+			entry->symbol_name = sym;
 			if (strncmp(entry->symbol_name, "__ksymtab_", 10) == 0)
 				list_add(&entry->list, &exp_symbols);
 			else
@@ -489,7 +497,6 @@ static bool convert_rela(struct section *oldsec, struct rela *r,
 static bool is_exported(char *sname)
 {
 	struct symbol_entry *e;
-
 	/*
 	 * exp_symbols itens are prefixed with __ksymtab_ - comparisons must
 	 * skip prefix and check if both are properly null-terminated
@@ -564,11 +571,13 @@ int main(int argc, const char **argv)
 				continue;
 
 			if (!find_missing_position(rela->sym, &sp)) {
-				WARN("Unable to find missing symbol");
+				WARN("Unable to find missing symbol: %s",
+						rela->sym->name);
 				return -1;
 			}
 			if (!convert_rela(sec, rela, &sp, klp_elf)) {
-				WARN("Unable to convert relocation");
+				WARN("Unable to convert relocation: %s",
+						rela->sym->name);
 				return -1;
 			}
 		}

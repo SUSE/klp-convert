@@ -528,6 +528,14 @@ static bool must_convert(struct symbol *sym)
 	if (sym->sec)
 		return false;
 
+	/* skip symbol with index 0 */
+	if (!sym->idx)
+		return false;
+
+	/* we should not touch .TOC. on ppc64le */
+	if (strcmp(sym->name, ".TOC.")==0)
+		return false;
+
 	return (!(is_converted(sym->name) || is_exported(sym->name)));
 }
 
